@@ -1,0 +1,69 @@
+(openteach_isaac) wangjw@TRX40-AORUS-PRO:~/Open-Teach$ python3 teleop.py robot=allegro_sim sim_env=True
+***************************************************************
+     Starting keypoint position transform component
+***************************************************************
+***************************************************************
+     Starting vr detector component
+***************************************************************
+Importing module 'gym_37' (/home/wangjw/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_37.so)
+Setting GYM_USD_PLUG_INFO_PATH to /home/wangjw/isaacgym/python/isaacgym/_bindings/linux-x86_64/usd/plugInfo.json
+Importing module 'gym_37' (/home/wangjw/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_37.so)
+Setting GYM_USD_PLUG_INFO_PATH to /home/wangjw/isaacgym/python/isaacgym/_bindings/linux-x86_64/usd/plugInfo.json
+***************************************************************
+     Starting hand 2D plotter component
+***************************************************************
+PyTorch version 1.13.1+cu117
+Device count 1
+/home/wangjw/isaacgym/python/isaacgym/_bindings/src/gymtorch
+Using /home/wangjw/.cache/torch_extensions/py37_cu117 as PyTorch extensions root...
+Emitting ninja build file /home/wangjw/.cache/torch_extensions/py37_cu117/gymtorch/build.ninja...
+Building extension module gymtorch...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module gymtorch...
+tcp://192.168.31.176:10005
+tcp://192.168.31.176:11005
+Trying to make simulation
+PyTorch version 1.13.1+cu117
+Device count 1
+/home/wangjw/isaacgym/python/isaacgym/_bindings/src/gymtorch
+Using /home/wangjw/.cache/torch_extensions/py37_cu117 as PyTorch extensions root...
+Not connected to PVD
++++ Using GPU PhysX
+Emitting ninja build file /home/wangjw/.cache/torch_extensions/py37_cu117/gymtorch/build.ninja...
+Building extension module gymtorch...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module gymtorch...
+Physics Engine: PhysX
+Physics Device: cuda:0
+GPU Pipeline: disabled
+***************************************************************
+     Starting allegro hand sim operator component
+***************************************************************
+/home/wangjw/.conda/envs/openteach_isaac/lib/python3.7/site-packages/ikpy/chain.py:60: UserWarning: Link Base link (index: 0) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive
+  warnings.warn("Link {} (index: {}) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive".format(link.name, link_index))
+/home/wangjw/.conda/envs/openteach_isaac/lib/python3.7/site-packages/ikpy/chain.py:60: UserWarning: Link joint_3.0_tip (index: 5) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive
+  warnings.warn("Link {} (index: {}) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive".format(link.name, link_index))
+/home/wangjw/.conda/envs/openteach_isaac/lib/python3.7/site-packages/ikpy/chain.py:60: UserWarning: Link joint_7.0_tip (index: 5) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive
+  warnings.warn("Link {} (index: {}) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive".format(link.name, link_index))
+/home/wangjw/.conda/envs/openteach_isaac/lib/python3.7/site-packages/ikpy/chain.py:60: UserWarning: Link joint_11.0_tip (index: 5) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive
+  warnings.warn("Link {} (index: {}) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive".format(link.name, link_index))
+/home/wangjw/.conda/envs/openteach_isaac/lib/python3.7/site-packages/ikpy/chain.py:60: UserWarning: Link joint_15.0_tip (index: 5) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive
+  warnings.warn("Link {} (index: {}) is of type 'fixed' but set as active in the active_links_mask. In practice, this fixed link doesn't provide any transformation so is as it were inactive".format(link.name, link_index))
+***************************************************************
+     Starting calibration component
+***************************************************************
+
+Calibration file already exists. Do you want to create a new one? Press y for Yes else press EnterSimulation created
+Loading asset 'allegro_hand_description/urdf/model_only_hand.urdf' from '/home/wangjw/Open-Teach/openteach/components/environment/assets/urdf/'
+
+Stopping the calibrator.
+Closing the subscriber socket in 192.168.31.176:8089.
+THUMB BOUNDS IN THE OPERATOR: [array([0.07147029, 0.10102608]), array([0.06931292, 0.06902901]), array([-0.00888068,  0.08024863]), array([-0.0074921,  0.0941279]), [-0.029687233564084578, -0.060893850578688846]]
+***************************************************************
+     Starting Allegro_Sim control component
+***************************************************************
+Start controlling the robot hand using the Oculus Headset.
+
+Applying retargeted angles
