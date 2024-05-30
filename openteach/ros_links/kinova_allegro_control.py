@@ -8,9 +8,6 @@ from kinova_arm.controller import KinovaController
 from copy import deepcopy as copy
 
 
-
-
-
 KINOVA_JOINT_STATE_TOPIC = '/j2n6s300_driver/out/joint_state'
 KINOVA_CARTESIAN_STATE_TOPIC = '/j2n6s300_driver/out/tool_pose'
 
