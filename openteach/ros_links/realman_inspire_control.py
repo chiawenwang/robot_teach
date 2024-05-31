@@ -18,10 +18,10 @@ REALMAN_CARTESIAN_STATE_TOPIC ='rm_driver/Pose_State'
 REALMAN_JOINT_STATE_TOPIC = '/joint_states'
 
 class DexArmControl():
-    def __init__(self, prefix='right_', robot_type="realman"):
+    def __init__(self, record_type=None,prefix='right_', robot_type="realman"):
         
         try:
-            rospy.init_node('Dexarm', anonymous=True)
+            rospy.init_node('Dexarm', disable_signals = True, anonymous=True)
         except:
             pass
 
@@ -44,6 +44,7 @@ class DexArmControl():
             REALMAN_JOINT_STATE_TOPIC,
             JointState,
             self._callback_realman_joint_state,
+            queue_size = 1
         )
 
         state_topic = "/" + self.prefix + REALMAN_CARTESIAN_STATE_TOPIC
@@ -60,148 +61,101 @@ class DexArmControl():
 
     # Rostopic callback functions
     def _callback_realman_joint_state(self, joint_state):
-        self.realman_joint_state = self.realman.current_joint_pose
+        self.realman_joint_state = self.realman.current_joint_state
+        # print(self.realman_joint_state)
 
     def _callback_realman_cartesian_state(self, cartesian_state):
         self.realman_cartesian_state = cartesian_state
+        # print(cartesian_state)
 
     def _callback_allegro_commanded_joint_state(self, joint_state):
         self.allegro_commanded_joint_state = joint_state
 
 
-
-
     # # State information functions
     # def get_hand_state(self):
-    #     if self.allegro_joint_state is None:
-    #         return None
-
-    #     raw_joint_state = copy(self.allegro_joint_state)
-
-    #     joint_state = dict(
-    #         position = np.array(raw_joint_state.position, dtype = np.float32),
-    #         velocity = np.array(raw_joint_state.velocity, dtype = np.float32),
-    #         effort = np.array(raw_joint_state.effort, dtype = np.float32),
-    #         timestamp = raw_joint_state.header.stamp.secs + (raw_joint_state.header.stamp.nsecs * 1e-9)
-    #     )
-    #     return joint_state
-
-    # def get_commanded_hand_state(self):
-    #     if self.allegro_commanded_joint_state is None:
-    #         return None
-
-    #     raw_joint_state = copy(self.allegro_commanded_joint_state)
-
-    #     joint_state = dict(
-    #         position = np.array(raw_joint_state.position, dtype = np.float32),
-    #         velocity = np.array(raw_joint_state.velocity, dtype = np.float32),
-    #         effort = np.array(raw_joint_state.effort, dtype = np.float32),
-    #         timestamp = raw_joint_state.header.stamp.secs + (raw_joint_state.header.stamp.nsecs * 1e-9)
-    #     )
-    #     return joint_state
-        
-    # def get_hand_position(self):
-    #     if self.allegro_joint_state is None:
-    #         return None
-
-    #     return np.array(self.allegro_joint_state.position, dtype = np.float32)
-
-    # def get_hand_velocity(self):
-    #     if self.allegro_joint_state is None:
-    #         return None
-
-    #     return np.array(self.allegro_joint_state.velocity, dtype = np.float32)
-
-    # def get_hand_torque(self):
-    #     if self.allegro_joint_state is None:
-    #         return None
-
-    #     return np.array(self.allegro_joint_state.effort, dtype = np.float32)
-
-    # def get_commanded_hand_joint_position(self):
-    #     if self.allegro_commanded_joint_state is None:
-    #         return None
-
-    #     return np.array(self.allegro_commanded_joint_state.position, dtype = np.float32)
+    # Hidden for now
 
 
     def get_arm_cartesian_state(self):
         if self.realman_cartesian_state is None:
+            print('No realman cartesian state')
             return None
 
         raw_cartesian_state = copy(self.realman_cartesian_state)
-######################################################################
+
         cartesian_state = dict(
             position = np.array([
-                raw_cartesian_state.pose.position.x, raw_cartesian_state.pose.position.y, raw_cartesian_state.pose.position.z
+                raw_cartesian_state.position.x, raw_cartesian_state.position.y, raw_cartesian_state.position.z
             ], dtype = np.float32),
             orientation = np.array([
-                raw_cartesian_state.pose.orientation.x, raw_cartesian_state.pose.orientation.y, raw_cartesian_state.pose.orientation.z, raw_cartesian_state.pose.orientation.w
+                raw_cartesian_state.orientation.x, raw_cartesian_state.orientation.y, raw_cartesian_state.orientation.z, raw_cartesian_state.orientation.w
             ], dtype = np.float32),
-            timestamp = raw_cartesian_state.header.stamp.secs + (raw_cartesian_state.header.stamp.nsecs * 1e-9)
+            # timestamp = raw_cartesian_state.header.stamp.secs + (raw_cartesian_state.header.stamp.nsecs * 1e-9)
         )
         return cartesian_state
+    ##########################2024.05.30################################
 
     def get_arm_joint_state(self):
-        if self.kinova_joint_state is None:
+        if self.realman_joint_state is None:
             return None
 
-        raw_joint_state = copy(self.kinova_joint_state)
+        raw_joint_state = copy(self.realman_joint_state)
 
         joint_state = dict(
-            position = np.array(raw_joint_state.position[:6], dtype = np.float32),
+            position = np.array(raw_joint_state.position[:7], dtype = np.float32),
             velocity = np.array(raw_joint_state.velocity[:6], dtype = np.float32),
             effort = np.array(raw_joint_state.effort[:6], dtype = np.float32),
-            timestamp = raw_joint_state.header.stamp.secs + (raw_joint_state.header.stamp.nsecs * 1e-9)
+            # timestamp = raw_joint_state.header.stamp.secs + (raw_joint_state.header.stamp.nsecs * 1e-9)
         )
         return joint_state
 
     def get_arm_position(self):
-        if self.kinova_joint_state is None:
-            return None
-        
-        return np.array(self.kinova_joint_state.position, dtype = np.float32)
+        if self.realman_joint_state.position is None:
+            raise ValueError('get_arm_position() is being called - Arm Position cannot be collected in Realman arms, this method should not be called')
+
+        return np.array(self.realman_joint_state.position, dtype = np.float32)
 
     def get_arm_velocity(self):
-        if self.kinova_joint_state is None:
-            return None
+        if not self.realman_joint_state.velocity:
+            raise ValueError('get_arm_velocity() is being called - Arm Velocity cannot be collected in Realman arms, this method should not be called')
         
-        return np.array(self.kinova_joint_state.velocity, dtype = np.float32)
+        return np.array(self.realman_joint_state.velocity, dtype = np.float32)
 
     def get_arm_torque(self):
-        if self.kinova_joint_state is None:
-            return None
+        if not self.realman_joint_state.effort:
+            raise ValueError('get_arm_effort() is being called - Arm Effort cannot be collected in Realman arms, this method should not be called')
 
-        return np.array(self.kinova_joint_state.effort, dtype = np.float32)
+        return np.array(self.realman_joint_state.effort, dtype = np.float32)
 
     def get_arm_cartesian_coords(self):
-        if self.kinova_cartesian_state is None:
+        if self.realman_cartesian_state is None:
             return None
 
         cartesian_state  =[
-            self.kinova_cartesian_state.pose.position.x,
-            self.kinova_cartesian_state.pose.position.y,
-            self.kinova_cartesian_state.pose.position.z,
-            self.kinova_cartesian_state.pose.orientation.x,
-            self.kinova_cartesian_state.pose.orientation.y,
-            self.kinova_cartesian_state.pose.orientation.z,
-            self.kinova_cartesian_state.pose.orientation.w
+            self.realman_cartesian_state.position.x,
+            self.realman_cartesian_state.position.y,
+            self.realman_cartesian_state.position.z,
+            self.realman_cartesian_state.orientation.x,
+            self.realman_cartesian_state.orientation.y,
+            self.realman_cartesian_state.orientation.z,
+            self.realman_cartesian_state.orientation.w
         ]
         return np.array(cartesian_state)
 
 
     # Movement functions
-    def move_hand(self, allegro_angles):
-        self.allegro.hand_pose(allegro_angles)
+    # def move_hand(self, allegro_angles):
+    #     self.allegro.hand_pose(allegro_angles)
 
-    def home_hand(self):
-        self.allegro.hand_pose(ALLEGRO_HOME_VALUES)
+    # def home_hand(self):
+    #     self.allegro.hand_pose(ALLEGRO_HOME_VALUES)
 
-    def reset_hand(self):
-        self.home_hand()
+    # def reset_hand(self):
+        # self.home_hand()
 
     def move_arm(self, kinova_angles):
-        self.kinova.joint_movement(kinova_angles, False)
+        self.realman.joint_movement(kinova_angles, False)
 
     def move_arm_cartesian(self, kinova_cartesian_values):
         self.kinova.cartesian_movement(kinova_cartesian_values, False, is_quaternion=True)
@@ -227,5 +181,10 @@ class DexArmControl():
 
 if __name__ == '__main__':
     robot = DexArmControl(prefix='right_')
-
+    time.sleep(0.1)
+    # print(robot.get_arm_joint_state())
+    # print(robot.get_arm_cartesian_state())
+    print(robot.get_arm_position())
+    print(robot.get_arm_velocity())
+    print(robot.get_arm_torque())
     rospy.spin()
