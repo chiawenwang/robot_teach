@@ -106,6 +106,7 @@ class DeployServer(Component):
 
     def stream(self):
         self.notify_component_start('robot deployer')
+
         # self.visualizer_process.start()
         while True:
             try:

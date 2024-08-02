@@ -17,6 +17,9 @@ class RobotInformationRecord(Recorder):
     ):
 
         # Data function and attributes
+        print('robot_configs:',robot_configs)
+        print('recorder_function_key:',recorder_function_key)
+        print('storage_path:',storage_path)
         self.robot = hydra.utils.instantiate(robot_configs, record_type=recorder_function_key)
         self.keypoint_function = self.robot.recorder_functions[recorder_function_key]
 
@@ -33,9 +36,14 @@ class RobotInformationRecord(Recorder):
 
     def stream(self):
         # Checking if the keypoint port is active
+        # print('+++++++++++++++++++++++++++++++++++++++')
+        # print('KEYPOINT_FUNCTION:',self.keypoint_function())
         print('Checking if the keypoint port is active...')
         while self.keypoint_function() is None:
+            # print(self.keypoint_function)
+            # print('=======================')
             continue
+        # print('+++++++++++++++++++++++++++++++++++++++')
         print('Starting to record keypoints to store in {}.'.format(self._recorder_file_name))
 
         self.num_datapoints = 0

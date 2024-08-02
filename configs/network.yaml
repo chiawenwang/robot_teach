@@ -1,6 +1,6 @@
 host_address: '192.168.31.15'
-left_xarm_ip: '192.168.86.216'
-right_xarm_ip: '192.168.86.230'
+left_xarm_ip: '192.168.31.106'
+right_xarm_ip: '192.168.31.105'
 
 # Transformation ports
 oculus_reciever_port: 8087

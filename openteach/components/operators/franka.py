@@ -206,6 +206,8 @@ class FrankaArmOperator(Operator):
         H_HT_HH = copy(self.hand_moving_H) # Homo matrix that takes P_HT to P_HH
         H_RI_RH = copy(self.robot_init_H) # Homo matrix that takes P_RI to P_RH
 
+        H_HT_HI = np.linalg.pinv(H_HI_HH) @ H_HT_HH # Homo matrix that takes P_HT to P_HI
+
         # Rotation from allegro to franka
         H_A_R = np.array( 
             [[1/np.sqrt(2), 1/np.sqrt(2), 0, 0],
@@ -213,7 +215,6 @@ class FrankaArmOperator(Operator):
              [0, 0, 1, -0.06], # The height of the allegro mount is 6cm
              [0, 0, 0, 1]])  
 
-        H_HT_HI = np.linalg.pinv(H_HI_HH) @ H_HT_HH # Homo matrix that takes P_HT to P_HI
         H_RT_RH = H_RI_RH @ H_A_R @ H_HT_HI @ np.linalg.pinv(H_A_R) # Homo matrix that takes P_RT to P_RH
         self.robot_moving_H = copy(H_RT_RH)
 
@@ -227,6 +228,7 @@ class FrankaArmOperator(Operator):
 
     def stream(self):
         self.notify_component_start('{} control'.format(self.robot.name))
+
         print("Start controlling the robot hand using the Oculus Headset.\n")
 
         # Assume that the initial position is considered initial after 3 seconds of the start

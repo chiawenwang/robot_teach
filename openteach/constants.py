@@ -113,9 +113,24 @@ ARM_TELEOP_CONT = 1
 ARM_TELEOP_STOP = 0
 
 
-# Bimanual Robot Constants
+# # Bimanual Robot Constants
 
-SCALE_FACTOR= 1000
+# SCALE_FACTOR= 1000
+
+# RIGHT_ARM_IP = "192.168.86.230" # For Right XArm
+# LEFT_ARM_IP = "192.168.86.216" # For Left XArm
+
+# BIMANUAL_LEFT_HOME = [206,0,475,3.142,0,0]
+# BIMANUAL_RIGHT_HOME = [206,0,475,3.142,0,0] 
+
+# ROBOT_HOME_POSE_AA = [206.0, -0.0, 475, 3.142, 0.0, 0.0]
+# ROBOT_HOME_JS = [0.072358, -0.95536, -0.040176,
+#                  0.661511, -0.032836, 1.616466, 0.047656]
+
+
+# Bimanual Robot Constants for Realman
+
+SCALE_FACTOR= 1
 
 RIGHT_ARM_IP = "192.168.86.230" # For Right XArm
 LEFT_ARM_IP = "192.168.86.216" # For Left XArm

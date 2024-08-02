@@ -5,7 +5,10 @@ defaults:
   - override hydra/job_logging: disabled 
 
 robot_cam_serial_numbers:
-  - '243322074047'
+  - '243522071984' #head
+  - '243322074047' #left hand
+
+
 
 
 cam_configs:
@@ -16,7 +19,7 @@ cam_configs:
   rotation_angle: 0
 
 oculus_cam: 0 # First camera
-num_cams: 1
+num_cams: 2
 
 hydra:  
   output_subdir: null  

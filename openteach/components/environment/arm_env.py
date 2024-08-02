@@ -17,6 +17,7 @@ class Arm_Env(Component, ABC):
     
     def stream(self):
         self.notify_component_start('{} environment'.format(self.name))
+
         print("Start controlling the Simulation Arm using the Oculus Headset.\n")
         while True:
             try:

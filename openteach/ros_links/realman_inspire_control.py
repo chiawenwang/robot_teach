@@ -91,7 +91,7 @@ class DexArmControl():
             orientation = np.array([
                 raw_cartesian_state.orientation.x, raw_cartesian_state.orientation.y, raw_cartesian_state.orientation.z, raw_cartesian_state.orientation.w
             ], dtype = np.float32),
-            # timestamp = raw_cartesian_state.header.stamp.secs + (raw_cartesian_state.header.stamp.nsecs * 1e-9)
+            timestamp = time.time()
         )
         return cartesian_state
     ##########################2024.05.30################################
@@ -106,7 +106,7 @@ class DexArmControl():
             position = np.array(raw_joint_state.position[:7], dtype = np.float32),
             velocity = np.array(raw_joint_state.velocity[:6], dtype = np.float32),
             effort = np.array(raw_joint_state.effort[:6], dtype = np.float32),
-            # timestamp = raw_joint_state.header.stamp.secs + (raw_joint_state.header.stamp.nsecs * 1e-9)
+            timestamp = time.time()
         )
         return joint_state
 
@@ -154,7 +154,7 @@ class DexArmControl():
     # def reset_hand(self):
         # self.home_hand()
 
-    def move_arm(self, kinova_angles):
+    def move_arm_joint(self, kinova_angles):
         self.realman.joint_movement(kinova_angles, False)
 
     def move_arm_cartesian(self, kinova_cartesian_values):
@@ -183,8 +183,8 @@ if __name__ == '__main__':
     robot = DexArmControl(prefix='right_')
     time.sleep(0.1)
     # print(robot.get_arm_joint_state())
-    # print(robot.get_arm_cartesian_state())
-    print(robot.get_arm_position())
-    print(robot.get_arm_velocity())
-    print(robot.get_arm_torque())
+    print(robot.get_arm_cartesian_state())
+    # print(robot.get_arm_position())
+    # print(robot.get_arm_velocity())
+    # print(get_arm_cartesian_coords())
     rospy.spin()

@@ -1,6 +1,12 @@
 from abc import ABC, abstractmethod
 from openteach.components import Component
 import numpy as np
+import time
+from matplotlib import pyplot as plt
+import json
+from matplotlib.animation import FuncAnimation
+import asyncio
+import  threading
 
 class Operator(Component, ABC):
     @property
@@ -26,38 +32,29 @@ class Operator(Component, ABC):
     def transformed_arm_keypoint_subscriber(self):
         return self._transformed_arm_keypoint_subscriber
 
-    #This function has the majority of retargeting code happening
-    @abstractmethod
-    def _apply_retargeted_angles(self):
-        pass
+    # # #This function has the majority of retargeting code happening
+    # @abstractmethod
+    # def _apply_retargeted_angles(self):
+    #     pass
 
     #This function applies the retargeted angles to the robot
     def stream(self):
         self.notify_component_start('{} control'.format(self.robot))
         print("Start controlling the robot hand using the Oculus Headset.\n")
 
-        while True:
-                try:
-                    if self.return_real() is True:
-                        if self.robot.get_joint_position() is not None:
-                            #print("######")
-                            self.timer.start_loop()
-                            
-                            # Retargeting function
-                            self._apply_retargeted_angles()
+        if self.return_real() is True:
+            # print(self.robot)
+            if self.robot.get_joint_position() is not None:
+                # asyncio.run(self._apply_retargeted_angles())
+                thread1 = threading.Thread(target = self._calculate_final_pose)
+                thread1.start()
+                print('Starting the thread:calculate_final_pose')
 
-                            self.timer.end_loop()
-                    else:
-                        self.timer.start_loop()
-                        
-                        # Retargeting function
-                        self._apply_retargeted_angles()
+                thread2 = threading.Thread(target = self._process_commands)
+                thread2.daemon = True
+                thread2.start()
+                print('Starting the thread:process_commands')
 
-                        self.timer.end_loop()
-
-                except KeyboardInterrupt:
-                    break
-        
-        self.transformed_arm_keypoint_subscriber.stop()
-        self.transformed_hand_keypoint_subscriber.stop()
-        print('Stopping the teleoperator!')
+                thread3 = threading.Thread(target = self._apply_hand_joint)
+                thread3.start()
+                print('Starting the thread:apply_hand_joint')

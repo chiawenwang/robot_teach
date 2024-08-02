@@ -331,6 +331,8 @@ class Collector(ProcessInstantiator):
 
     #Function to start the robot recorders
     def _init_robot_recorders(self):
+        # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        # print(self.configs.robot.recorded_data)
         # Instantiating the robot classes
         for idx, robot_controller_configs in enumerate(self.configs.robot.controllers):
             for key in self.configs.robot.recorded_data[idx]:
